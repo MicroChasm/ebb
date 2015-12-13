@@ -1,0 +1,540 @@
+fileFormatVersion: 2
+guid: 36ea1c94264caf043b3196f78049c147
+timeCreated: 1446323286
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: landing_0
+    21300002: landing_1
+    21300004: landing_2
+    21300006: landing_3
+    21300008: landing_4
+    21300010: landing_5
+    21300012: landing_6
+    21300014: landing_7
+    21300016: landing_8
+    21300018: landing_9
+    21300020: landing_10
+    21300022: landing_11
+    21300024: landing_12
+    21300026: landing_13
+    21300028: landing_14
+    21300030: landing_15
+    21300032: landing_16
+    21300034: landing_17
+    21300036: landing_18
+    21300038: landing_19
+    21300040: landing_20
+    21300042: landing_21
+    21300044: landing_22
+    21300046: landing_23
+    21300048: landing_24
+    21300050: landing_25
+    21300052: landing_26
+    21300054: landing_27
+    21300056: landing_28
+    21300058: landing_29
+    21300060: landing_30
+    21300062: landing_31
+    21300064: landing_32
+    21300066: landing_33
+    21300068: landing_34
+    21300070: landing_35
+    21300072: landing_36
+    21300074: landing_37
+    21300076: landing_38
+    21300078: landing_39
+    21300080: landing_40
+    21300082: landing_41
+    21300084: landing_42
+    21300086: landing_43
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: landing_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3088
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 3088
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 3088
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_3
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 3088
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_4
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 3088
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_5
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 3088
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_6
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 3088
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2576
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2576
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_9
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2576
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_10
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2576
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_11
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2576
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_12
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 2576
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_13
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 2576
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2064
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_15
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2064
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_16
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2064
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_17
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2064
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_18
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2064
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_19
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 2064
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_20
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 2064
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1552
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_22
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1552
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_23
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1552
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_24
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1552
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_25
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 1552
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_26
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 1552
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_27
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 1552
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1040
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_29
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1040
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_30
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1040
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_31
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1040
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_32
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 1040
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_33
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 1040
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_34
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 1040
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 528
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_36
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 528
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_37
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 528
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_38
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 528
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_39
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 528
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_40
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 528
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_41
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 528
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_42
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: landing_43
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 16
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
