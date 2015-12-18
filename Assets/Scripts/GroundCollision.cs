@@ -5,7 +5,7 @@ public class GroundCollision : MonoBehaviour
 {
     public bool grounded = false;
     public bool landing = false;
-    Collider2D collider;
+    Collider2D collisionBox;
     int groundMask;
 
     void OnTriggerStay2D(Collider2D other)
@@ -36,7 +36,7 @@ public class GroundCollision : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        collider = GetComponent<BoxCollider2D>();
+        collisionBox = GetComponent<BoxCollider2D>();
         groundMask = LayerMask.GetMask("ground");
     }
 
@@ -52,10 +52,10 @@ public class GroundCollision : MonoBehaviour
         Vector2 startLine;
         Vector2 endLine;
 
-        rayX = collider.bounds.center.x;
-        rayY = collider.bounds.center.y - (collider.bounds.size.y/2);
-        rayXEnd = collider.bounds.center.x;
-        rayYEnd = collider.bounds.center.y - collider.bounds.size.y;
+        rayX = collisionBox.bounds.center.x;
+        rayY = collisionBox.bounds.center.y - (collisionBox.bounds.extents.y/2);
+        rayXEnd = collisionBox.bounds.center.x;
+        rayYEnd = collisionBox.bounds.center.y - (0.55f * collisionBox.bounds.size.y);
         startLine = new Vector2(rayX, rayY);
         endLine = new Vector2(rayXEnd, rayYEnd);
         numRaycastHits = Physics2D.LinecastNonAlloc(startLine,

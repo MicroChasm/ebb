@@ -53,6 +53,8 @@ public class PortalController : MonoBehaviour {
     private bool activated = false;
     public int endCounter = 0;
 
+    private CameraShake cameraShake; 
+
     // Use this for initialization
     void Start() {
         /*
@@ -67,6 +69,7 @@ public class PortalController : MonoBehaviour {
         */
         player = GameObject.Find("Player Object");
         portalPedistal = GameObject.Find("portal_pedestal");
+        cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
     }
 
     // Update is called once per frame
@@ -75,7 +78,9 @@ public class PortalController : MonoBehaviour {
         Vector2 tendrilOffset;
         GameObject child;
         int childCount;
-  
+        float tendrilAngle = 0.0f;
+        Vector2 tendrilVelocity = Vector2.zero;
+
         bool allRunesFound = true;
         float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
@@ -92,20 +97,34 @@ public class PortalController : MonoBehaviour {
 
         if (activated)
         {
-            player.transform.position = Vector2.Lerp(player.transform.position, transform.position, 50 * Time.deltaTime);
+            //move player towards center to keep them from getting away.
+            player.transform.position = Vector2.Lerp(player.transform.position, transform.position, 25 * Time.deltaTime);
+
+            //add more particles to help engulf the screen.
+            numParticles += 10;
+
+            //add particles in first circle
             m_particlesArea.AddParticles(circleOffset, activatedCircleRadius, numParticles * Time.deltaTime);
+
+            //add particles in second (larger) circle
             m_particlesArea.AddParticles(circleOffset, activatedCircleRadius * 2, (numParticles / 2) * Time.deltaTime);
 
             for (int tendrilIndex = 0; tendrilIndex < tendrils; tendrilIndex++)
             {
-                tendrilOffset = new Vector2(offset.x + 0.1f * Mathf.Cos(tendrilIndex * (2 * Mathf.PI / tendrils)), offset.y + 0.1f * Mathf.Sin(tendrilIndex * (2 * Mathf.PI / tendrils)));
-                m_fluid.AddVelocity(tendrilOffset, velocity * (Quaternion.AngleAxis((360 / tendrils) * tendrilIndex, Vector3.forward) * Vector3.up), radius);
-                //Debug.Log("index = " + tendrilIndex + ", offset = " + tendrilOffset);
+                //tendril angle along 2*pi radians .
+                tendrilAngle = tendrilIndex * (2 * Mathf.PI / tendrils);
+
+                //offset is given by angle plus small offset from center.
+                tendrilOffset = new Vector2(offset.x + 0.1f * Mathf.Cos(tendrilAngle), offset.y + 0.1f * Mathf.Sin(tendrilAngle));
+
+                //velocity is a rotation of an outwards vector by a certain number of degrees.
+                m_fluid.AddVelocity(tendrilOffset, velocity * (Quaternion.AngleAxis((360 / tendrils) * tendrilIndex, Vector3.forward) * Vector3.right), radius);
             }
         }
         else if (runesCollected && distanceToPlayer < activateDistance)
         {
             activated = true;
+            cameraShake.StartScreenShake(10f, 1.0f, 1.01f);
         }
         else if (distanceToPlayer < startupDistance)
         {
