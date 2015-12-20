@@ -20,8 +20,6 @@ public class PortalController : MonoBehaviour {
 
     public PortalConfig currentConfig;
 
-    public bool portalActivated = false;
-
     public const float INITIAL_PARTICLES = 500;
     public const float FINAL_PARTICLE = 200;
     public const float INITIAL_LIFE = 0.5f;
@@ -47,16 +45,22 @@ public class PortalController : MonoBehaviour {
 
     public ObjectSensor playerSensor;
     public GameObject player;
-    private GameObject portalPedistal;
 
-    private bool runesCollected = false;
     private bool activated = false;
     public int endCounter = 0;
 
     private CameraShake cameraShake; 
+    private RuneController runeController;
 
-    // Use this for initialization
-    void Start() {
+    void Awake()
+    {
+        player = GameObject.Find("Player Object");
+        cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+    }
+
+    void Start() 
+    {
+        runeController = GameObject.Find("RuneController").GetComponent<RuneController>();
         /*
         initialConfig.numParticles = 500f;
         initialConfig.life = 0.5f;
@@ -67,9 +71,6 @@ public class PortalController : MonoBehaviour {
 
         currentConfig = initialConfig;
         */
-        player = GameObject.Find("Player Object");
-        portalPedistal = GameObject.Find("portal_pedestal");
-        cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
     }
 
     // Update is called once per frame
@@ -81,24 +82,36 @@ public class PortalController : MonoBehaviour {
         float tendrilAngle = 0.0f;
         Vector2 tendrilVelocity = Vector2.zero;
 
-        bool allRunesFound = true;
         float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
         if (activated)
         {
-            portalActivated = true;
-            endCounter++;
+          endCounter++;
+          if (endCounter > 275)
+          {
+              Application.LoadLevel(0);
+          }
         }
 
-        if (endCounter > 275)
+        if (runeController.CollectedAllRunes() && distanceToPlayer < activateDistance)
         {
-            Application.LoadLevel(0);
+            activated = true;
+            cameraShake.StartScreenShake(10f, 1.0f, 1.01f);
+        }
+
+        if (distanceToPlayer < startupDistance)
+        {
+            if (runeController.CollectedAllRunes())
+            {
+                m_particlesArea.AddParticles(circleOffset, circleRadius, numParticles * Time.deltaTime);
+                m_particlesArea.AddParticles(circleOffset, circleRadius * 2, (numParticles / 10) * Time.deltaTime);
+            }
         }
 
         if (activated)
         {
             //move player towards center to keep them from getting away.
-            player.transform.position = Vector2.Lerp(player.transform.position, transform.position, 25 * Time.deltaTime);
+            player.transform.position = Vector2.Lerp(player.transform.position, transform.position, 10 * Time.deltaTime);
 
             //add more particles to help engulf the screen.
             numParticles += 10;
@@ -121,36 +134,7 @@ public class PortalController : MonoBehaviour {
                 m_fluid.AddVelocity(tendrilOffset, velocity * (Quaternion.AngleAxis((360 / tendrils) * tendrilIndex, Vector3.forward) * Vector3.right), radius);
             }
         }
-        else if (runesCollected && distanceToPlayer < activateDistance)
-        {
-            activated = true;
-            cameraShake.StartScreenShake(10f, 1.0f, 1.01f);
-        }
-        else if (distanceToPlayer < startupDistance)
-        {
-            if (!runesCollected)
-            {
-                childCount = portalPedistal.transform.childCount;
-                for (int childIndex = 0; childIndex < childCount; childIndex++)
-                {
-                    child = portalPedistal.transform.GetChild(childIndex).gameObject;
-                    if (child.name.Contains("Rune"))
-                    {
-                        allRunesFound = allRunesFound && child.GetComponent<SpriteRenderer>().enabled;
-                    }
-                    if (!allRunesFound)
-                    {
-                        break;
-                    }
-                }
-                runesCollected = allRunesFound;
-            }
-            if (runesCollected)
-            {
-                m_particlesArea.AddParticles(circleOffset, circleRadius, numParticles * Time.deltaTime);
-                m_particlesArea.AddParticles(circleOffset, circleRadius * 2, (numParticles / 10) * Time.deltaTime);
-            }
-        }
+
     }
     void OnDrawGizmos()
     {

@@ -18,6 +18,8 @@ obj/
 *.user
 *.unityproj
 *.booproj
+*.meta
+*.swp
 
 # ============ #
 # OS generated #
@@ -32,4 +34,4 @@ Thumbs.db
 
 # =========== #
 # Our Stuff   #
-# =========== #
+???

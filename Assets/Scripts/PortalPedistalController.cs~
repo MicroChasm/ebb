@@ -1,0 +1,27 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class PortalPedistalController : MonoBehaviour {
+  private RuneController runeController;
+  private SpriteRenderer[] runeSprites;
+
+	void Start () 
+  {
+    runeController = GameObject.Find("RuneController").GetComponent<RuneController>();
+    runeSprites = GetComponentsInChildren<SpriteRenderer>();
+    StartCoroutine(UpdateRuneState);
+	}
+	
+	void Update () 
+  {
+	
+	}
+
+  void UpdateRuneState()
+  {
+    while (!runeController.CollectedAllRunes())
+    {
+       yield return new WaitForSeconds(1.0f);
+    }
+  }
+}

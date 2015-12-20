@@ -87,12 +87,11 @@ public class playerController : MonoBehaviour
     public ParticleSystem doubleJumpParticles;
     public ParticleSystem BloodParticles;
 
-    public AudioSource JumpSound;
-    public AudioSource AttackSource;
+    private PlayerAudioController playerAudioController;
+
+    //TODO remove all of these variables
     public AudioClip Attack3Sound;
     public AudioClip[] walkingAudioClips = new AudioClip[7];
-    public AudioSource walkingAudioSource;
-    public AudioSource LandingAudioSource;
     public AudioClip fastFallLandingAudioClip;
     public AudioClip landingAudioClip;
     public AudioClip coinAudioClip;
@@ -106,6 +105,10 @@ public class playerController : MonoBehaviour
     public AudioClip Damage1;
     public AudioClip Damage2;
     public AudioClip Damage3;
+    public AudioClip GemAudioClip1;
+    public AudioSource JumpSound;
+    public AudioSource AttackSource;
+    public AudioSource audioSource;
     public AudioSource CoinAudioSource;
     public AudioSource RuneAudioSource1;
     public AudioSource RuneAudioSource2;
@@ -113,14 +116,15 @@ public class playerController : MonoBehaviour
     public AudioSource RuneAudioSource4;
     public AudioSource RuneAudioSource5;
     public AudioSource GemAudioSource1;
-    public AudioClip GemAudioClip1;
+    public AudioSource walkingAudioSource;
+    public AudioSource LandingAudioSource;
 
 
     // private DeathEffect deathEffect;
     private CameraShake cameraShake;
 
     public int coinCount = 0;
-    private HashSet<string> runesCollected;
+    private RuneController runeController;
     private List<string> runeNames;
 
     public Collider2D attackGroundPoundHitbox;
@@ -155,9 +159,9 @@ public class playerController : MonoBehaviour
 
     public enum PlayerAttacks
     {
-        NO_ATTACK = 0,
-        PUNCH = 1,
-        PUNCH_SND = 2,
+        NO_ATTACK    = 0,
+        PUNCH        = 1,
+        PUNCH_SND    = 2,
         GROUND_POUND = 3
     };
 
@@ -168,26 +172,21 @@ public class playerController : MonoBehaviour
         OPPOSITE
     }
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
-        //Set up runes
-        runesCollected = new HashSet<string>();
-        runeNames = new List<string>();
-        runeNames.Add("Tree");
-        runeNames.Add("P");
-        runeNames.Add("House");
-        runeNames.Add("Cross");
-        runeNames.Add("Fish");
-
         player = GetComponent<Rigidbody2D>();
         spriteDisplay = gameObject.GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
-        //circleCollider = GetComponent<CircleCollider2D>();
-        groundLayerMask = LayerMask.GetMask("ground");
-       // deathEffect = GameObject.Find("PlayerDeathEffect").GetComponent<DeathEffect>();
         cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        playerAudioController = GameObject.Find("PlayerAudioController").GetComponent<PlayerAudioController>();
+    }
+
+    void Start()
+    {
+        groundLayerMask = LayerMask.GetMask("ground");
+        runeController = GameObject.Find("RuneController").GetComponent<RuneController>();
+       // deathEffect = GameObject.Find("PlayerDeathEffect").GetComponent<DeathEffect>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -198,15 +197,18 @@ public class playerController : MonoBehaviour
             damageSound = Random.RandomRange(0, 3);
             if (damageSound == 0)
             {
-                AttackSource.PlayOneShot(Damage1);
+                //AttackSource.PlayOneShot(Damage1);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE1);
             }
             else if (damageSound == 1)
             {
-                AttackSource.PlayOneShot(Damage2);
+                //AttackSource.PlayOneShot(Damage2);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE2);
             }
             else if (damageSound == 2)
             {
-                AttackSource.PlayOneShot(Damage3);
+                //AttackSource.PlayOneShot(Damage3);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE3);
             }
         }
     }
@@ -215,6 +217,8 @@ public class playerController : MonoBehaviour
     {
         AudioSource audioSource;
         SpriteRenderer spriteRenderer;
+        bool runeCollectedAlready;
+
         if (other.tag == "Hazard")
         {
             damage += 1;
@@ -232,7 +236,8 @@ public class playerController : MonoBehaviour
                 audioSource = other.gameObject.GetComponent<AudioSource>();
                 spriteRenderer = other.gameObject.GetComponent<SpriteRenderer>();
                 GameObject.Find(other.gameObject.name.Replace("Collectable", "")).GetComponent<SpriteRenderer>().enabled = true;
-                audioSource.PlayOneShot(audioSource.clip);
+                //audioSource.PlayOneShot(audioSource.clip);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_GEM);
                 spriteRenderer.enabled = false;
             }
 
@@ -245,20 +250,16 @@ public class playerController : MonoBehaviour
             if (other.gameObject.name == "coin")
             {
                 coinCount++;
-                CoinAudioSource.PlayOneShot(coinAudioClip);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_COIN);
                 Destroy(other.gameObject);
             }
             else if (other.gameObject.name.EndsWith("RuneCollectable"))
             {
-                if (!runesCollected.Contains(other.gameObject.name))
-                {
-                    runesCollected.Add(other.gameObject.name);
-                    audioSource = other.gameObject.GetComponent<AudioSource>();
-                    spriteRenderer = other.gameObject.GetComponent<SpriteRenderer>();
-                    GameObject.Find(other.gameObject.name.Replace("Collectable", "")).GetComponent<SpriteRenderer>().enabled = true;
-                    audioSource.PlayOneShot(audioSource.clip);
-                    spriteRenderer.enabled = false;
-                }
+              runeCollectedAlready = runeController.CollectRune(other.gameObject);
+              if (!runeCollectedAlready)
+              {
+                playerAudioController.PlayRuneAudioClip(other.gameObject.name);
+              }
             }
         }
     }
@@ -476,7 +477,7 @@ public class playerController : MonoBehaviour
         }
 
         //jumping check
-        if (grounded.grounded && !noJump && inputEnabled && !Portal.portalActivated && (playerState != PlayerState.DIALOG) && (playerState != PlayerState.ATTACKING) && (((Input.GetKeyDown("w")) || (Input.GetKeyDown("space")))))
+        if (grounded.grounded && !noJump && inputEnabled && (playerState != PlayerState.DIALOG) && (playerState != PlayerState.ATTACKING) && (((Input.GetKeyDown("w")) || (Input.GetKeyDown("space")))))
         {
             JumpSound.Play();
             jumping = true;
@@ -506,16 +507,18 @@ public class playerController : MonoBehaviour
             }
         }
 
-        if (grounded.landing && !wallCollision.wallLeft && !wallCollision.wallRight && !Portal.portalActivated)
+        if (grounded.landing && !wallCollision.wallLeft && !wallCollision.wallRight)
         {
             if (!LandingAudioSource.isPlaying)
             {
                 if (fastFall)
                 {
+                  //TODO replace with audio controller call
                     LandingAudioSource.PlayOneShot(fastFallLandingAudioClip);
                 }
                 else
                 {
+                  //TODO replace with audio controller call
                     LandingAudioSource.PlayOneShot(landingAudioClip);
                 }
             }
@@ -568,7 +571,8 @@ public class playerController : MonoBehaviour
 
                 if (!walkingAudioSource.isPlaying)
                 {
-                    walkingAudioSource.PlayOneShot(walkingAudioClips[Random.Range(0, walkingAudioClips.Length)]);
+                    //walkingAudioSource.PlayOneShot(walkingAudioClips[Random.Range(0, walkingAudioClips.Length)]);
+                    playerAudioController.PlayWalkingAudioClip(Random.Range(0, walkingAudioClips.Length));
                     if (Input.GetKey(KeyCode.LeftShift))
                         walkingAudioSource.pitch = 1.25f;
                     else walkingAudioSource.pitch = 1.0f;
@@ -985,6 +989,7 @@ public class playerController : MonoBehaviour
                         anim.SetBool("Attack3 Pound", true);
                         attackCounter = 0;
                         //AttackSource.PlayOneShot(Attack3Sound);
+                        playerAudioController.PlayWalkingAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE1);
                         attack3Pound = true;
                         cameraShake.StartScreenShake(1.4f, 2.0f);
                     }
