@@ -989,7 +989,7 @@ public class playerController : MonoBehaviour
                         anim.SetBool("Attack3 Pound", true);
                         attackCounter = 0;
                         //AttackSource.PlayOneShot(Attack3Sound);
-                        playerAudioController.PlayWalkingAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE1);
+                        playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE1);
                         attack3Pound = true;
                         cameraShake.StartScreenShake(1.4f, 2.0f);
                     }
