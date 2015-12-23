@@ -334,10 +334,10 @@ public class playerController : MonoBehaviour
                 //Joel added-----------------------------------------------------------------------v
 
                 if ((grounded.grounded) && (Input.GetKeyDown("s")) && (moving == true)){
-                    TransitionState(PlayerState.ROLLING);
+
                     rollingCount = 0;
                     anim.SetBool("Rolling", true);
-
+                    TransitionState(PlayerState.ROLLING);
                 }
 
 
@@ -458,6 +458,13 @@ public class playerController : MonoBehaviour
                 {
                     TransitionState(PlayerState.IDLE);
                 }
+                if ((grounded.grounded) && (Input.GetKeyDown("s")) && (moving == true))
+                {
+
+                    rollingCount = 0;
+                    anim.SetBool("Rolling", true);
+                    TransitionState(PlayerState.ROLLING);
+                }
                 break;
 
             case PlayerState.WALKING:
@@ -470,6 +477,13 @@ public class playerController : MonoBehaviour
                 if ((!grounded.grounded) && (playerState != PlayerState.ATTACKING))
                 {
                     TransitionState(PlayerState.FALLING);
+                }
+                if ((grounded.grounded) && (Input.GetKeyDown("s")) && (moving == true))
+                {
+
+                    rollingCount = 0;
+                    anim.SetBool("Rolling", true);
+                    TransitionState(PlayerState.ROLLING);
                 }
                 break;
 
