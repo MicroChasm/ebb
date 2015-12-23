@@ -26,6 +26,8 @@ public class playerController : MonoBehaviour
     public float maxSpeedFall = 1f;
     public float maxSpeedWallGrab = 0.1f;
     public float maxSpeedWallJump = 1f;
+    //added by joel
+    public int rollingCount;
 
     public float runSpeed = 0.75f;
     public float wallKickSpeed = 3f;
@@ -154,7 +156,8 @@ public class playerController : MonoBehaviour
         JUMPING,
         DOUBLE_JUMP,
         LANDING,
-        CROUCHING
+        CROUCHING,
+        ROLLING,
     };
 
     public enum PlayerAttacks
@@ -328,11 +331,34 @@ public class playerController : MonoBehaviour
                 horizontalSpeed = Mathf.Lerp(horizontalSpeed, 0, 0.3f);
                 verticalSpeed = 0;
                 inputEnabled = true;
+                //Joel added-----------------------------------------------------------------------v
+
+                if ((grounded.grounded) && (Input.GetKeyDown("s")) && (moving == true)){
+                    TransitionState(PlayerState.ROLLING);
+                    rollingCount = 0;
+                    anim.SetBool("Rolling", true);
+
+                }
+
+
                 if ((!grounded.grounded) && (playerState != PlayerState.ATTACKING))
                 {
                     TransitionState(PlayerState.FALLING);
                 }
                 break;
+
+            //Joel added-----------------------------------------------------------------------v
+
+            case PlayerState.ROLLING:
+                horizontalSpeed = .6f;
+                rollingCount++;
+                anim.SetBool("Rolling", true);
+                if (rollingCount > 25){
+                    anim.SetBool("Rolling", false);
+                    TransitionState(PlayerState.IDLE);
+                }
+                break;
+
 
             case PlayerState.JUMPING:
                 //jumping state
