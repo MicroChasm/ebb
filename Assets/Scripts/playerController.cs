@@ -8,6 +8,7 @@ using System;
 
 public class playerController : MonoBehaviour
 {
+<<<<<<< HEAD
   public enum PlayerState
   {
     IDLE,
@@ -120,6 +121,46 @@ public class playerController : MonoBehaviour
 
   float minSpeed = 2;
   [HideInInspector]
+=======
+    public PlayerState playerState = PlayerState.FALLING;
+    private PlayerState playerStatePrev = PlayerState.FALLING;
+
+    bool moving = false;
+    public bool movingLeft = false;
+    public bool movingRight = false;
+    bool dead = false;
+    public SpriteRenderer spriteDisplay;
+
+    public float jumpBurst = 0.1f;
+    public float jumpTrail = 0.1f;
+    bool jumping;
+    public float wallBurst = 0.1f;
+    public float jumpLimit = .30f;
+
+    public float maxSpeedWalk = 1;
+    public float maxSpeedRun = 2;
+    public float maxJumpSpeed = 1;
+    public float walkSpeed = 0.5f;
+    public float maxSpeedFall = 1f;
+    public float maxSpeedWallGrab = 0.1f;
+    public float maxSpeedWallJump = 1f;
+    //added by joel
+    public int rollingCount;
+
+    public float runSpeed = 0.75f;
+    public float wallKickSpeed = 3f;
+    float maxMovement = 120;
+    float maxMovementThisFrame = 0;
+
+    public float horizontalSpeed = 0;
+    public float verticalSpeed = 0;
+
+    public float damage = 0;
+
+    public float gravity = 0.1f;
+    float minSpeed = 2;
+    [HideInInspector]
+>>>>>>> ecba01786226d7ab1e09ee03d0c0582bd7c4f1c4
     public float currentSpeedx;
   [HideInInspector]
   public float currentSpeedy;
@@ -155,6 +196,7 @@ public class playerController : MonoBehaviour
     public bool holdingAttack = false;
   [HideInInspector]
     public int crouchCounter = 0;
+<<<<<<< HEAD
   private bool doubleJumpItem;
   public bool attack3Pound = false;
 
@@ -226,6 +268,141 @@ public class playerController : MonoBehaviour
         if (other.tag == "Killswitch")
         {
             damage += 5000000;
+=======
+    private bool doubleJumpItem;
+    public bool attack3Pound = false;
+
+    public ParticleSystem WalkParticles;
+    public ParticleSystem WallParticlesLeft;
+    public ParticleSystem WallParticlesRight;
+    public ParticleSystem doubleJumpParticles;
+    public ParticleSystem BloodParticles;
+
+    private PlayerAudioController playerAudioController;
+
+    //TODO remove all of these variables
+    public AudioClip Attack3Sound;
+    public AudioClip[] walkingAudioClips = new AudioClip[7];
+    public AudioClip fastFallLandingAudioClip;
+    public AudioClip landingAudioClip;
+    public AudioClip coinAudioClip;
+    public AudioClip Attack1AudioClip1;
+    public AudioClip Attack1AudioClip2;
+    public AudioClip Runetone1;
+    public AudioClip Runetone2;
+    public AudioClip Runetone3;
+    public AudioClip Runetone4;
+    public AudioClip Runetone5;
+    public AudioClip Damage1;
+    public AudioClip Damage2;
+    public AudioClip Damage3;
+    public AudioClip GemAudioClip1;
+    public AudioSource JumpSound;
+    public AudioSource AttackSource;
+    public AudioSource audioSource;
+    public AudioSource CoinAudioSource;
+    public AudioSource RuneAudioSource1;
+    public AudioSource RuneAudioSource2;
+    public AudioSource RuneAudioSource3;
+    public AudioSource RuneAudioSource4;
+    public AudioSource RuneAudioSource5;
+    public AudioSource GemAudioSource1;
+    public AudioSource walkingAudioSource;
+    public AudioSource LandingAudioSource;
+
+
+    // private DeathEffect deathEffect;
+    private CameraShake cameraShake;
+
+    public int coinCount = 0;
+    private RuneController runeController;
+    private List<string> runeNames;
+
+    public Collider2D attackGroundPoundHitbox;
+    public Collider2D attackPunchHitbox;
+    public Collider2D attackPunchSndHitbox;
+
+    Animator anim;
+    RaycastHit2D[] raycastHits = new RaycastHit2D[1];
+    BoxCollider2D boxCollider;
+    //CircleCollider2D circleCollider;
+    int groundLayerMask = 0;
+
+    Dialog dialogComponent;
+
+    Rigidbody2D player;
+
+    public enum PlayerState
+    {
+        IDLE,
+        WALKING,
+        RUNNING,
+        DIALOG,
+        ATTACKING,
+        FALLING,
+        WALL_JUMP,
+        WALL_GRAB,
+        JUMPING,
+        DOUBLE_JUMP,
+        LANDING,
+        CROUCHING,
+        ROLLING,
+    };
+
+    public enum PlayerAttacks
+    {
+        NO_ATTACK    = 0,
+        PUNCH        = 1,
+        PUNCH_SND    = 2,
+        GROUND_POUND = 3
+    };
+
+    public enum Direction
+    {
+        LEFT,
+        RIGHT,
+        OPPOSITE
+    }
+
+    void Awake()
+    {
+        player = GetComponent<Rigidbody2D>();
+        spriteDisplay = gameObject.GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        playerAudioController = GameObject.Find("PlayerAudioController").GetComponent<PlayerAudioController>();
+    }
+
+    void Start()
+    {
+        groundLayerMask = LayerMask.GetMask("ground");
+        runeController = GameObject.Find("RuneController").GetComponent<RuneController>();
+       // deathEffect = GameObject.Find("PlayerDeathEffect").GetComponent<DeathEffect>();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Hazard")
+        {
+            damage += 15;
+            damageSound = Random.RandomRange(0, 3);
+            if (damageSound == 0)
+            {
+                //AttackSource.PlayOneShot(Damage1);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE1);
+            }
+            else if (damageSound == 1)
+            {
+                //AttackSource.PlayOneShot(Damage2);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE2);
+            }
+            else if (damageSound == 2)
+            {
+                //AttackSource.PlayOneShot(Damage3);
+                playerAudioController.PlayAudioClip(AudioClipEnum.AUDIO_CLIP_DAMAGE3);
+            }
+>>>>>>> ecba01786226d7ab1e09ee03d0c0582bd7c4f1c4
         }
 
             if (other.tag == "Hazard")
@@ -489,12 +666,242 @@ public class playerController : MonoBehaviour
     {
       case PlayerState.DIALOG:
 
+<<<<<<< HEAD
         player.velocity = Vector2.zero;
         anim.SetBool("Dialog", true);
         inputEnabled = false;
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
           dialogComponent.IncrementMessage();
+=======
+        switch (playerState)
+        {
+            case PlayerState.DIALOG:
+
+                player.velocity = Vector2.zero;
+                anim.SetBool("Dialog", true);
+                inputEnabled = false;
+                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+                {
+                    dialogComponent.IncrementMessage();
+                }
+                else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+                {
+                    dialogComponent.DecrementMessage();
+                }
+                else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("space"))
+                {
+                    dialogComponent.SelectDialogOption();
+                }
+                horizontalSpeed = 0;
+                verticalSpeed = 0;
+                break;
+
+            case PlayerState.IDLE:
+                horizontalSpeed = Mathf.Lerp(horizontalSpeed, 0, 0.3f);
+                verticalSpeed = 0;
+                inputEnabled = true;
+                //Joel added-----------------------------------------------------------------------v
+
+                if ((grounded.grounded) && (Input.GetKeyDown("s")) && (moving == true)){
+
+                    rollingCount = 0;
+                    anim.SetBool("Rolling", true);
+                    TransitionState(PlayerState.ROLLING);
+                }
+
+
+                if ((!grounded.grounded) && (playerState != PlayerState.ATTACKING))
+                {
+                    TransitionState(PlayerState.FALLING);
+                }
+                break;
+
+            //Joel added-----------------------------------------------------------------------v
+
+            case PlayerState.ROLLING:
+                horizontalSpeed = .6f;
+                rollingCount++;
+                anim.SetBool("Rolling", true);
+                if (rollingCount > 25){
+                    anim.SetBool("Rolling", false);
+                    TransitionState(PlayerState.IDLE);
+                }
+                break;
+
+
+            case PlayerState.JUMPING:
+                //jumping state
+                anim.SetBool("Up", true);
+
+                doubleJumpFlag = false;
+
+                break;
+
+            case PlayerState.FALLING:
+                //falling state
+                anim.SetBool("Down", true);
+
+                //verticalSpeed -= gravity;
+                //verticalSpeed = Mathf.Clamp(verticalSpeed, -maxSpeedFall, maxSpeedFall);
+
+                horizontalSpeed = Mathf.Lerp(horizontalSpeed, 0, Time.deltaTime * 0.5f);
+
+                //Check for wall in direction that we are facing
+                rayX = boxCollider.bounds.center.x;
+                rayY = boxCollider.bounds.center.y;
+                rayXEnd = boxCollider.bounds.center.x + boxCollider.bounds.size.x * (facingRight ? 1 : -1);
+                rayYEnd = boxCollider.bounds.center.y;
+                if (CastLine(rayX, rayY, rayXEnd, rayYEnd, groundLayerMask) && (Input.GetKey("d") || Input.GetKey("a")))
+                {
+                    anim.SetBool("WallGrab", true);
+                    TransitionState(PlayerState.WALL_GRAB);
+                }
+
+                //Check for ground.
+                rayX = boxCollider.bounds.center.x;
+                rayY = boxCollider.bounds.center.y;
+                rayXEnd = boxCollider.bounds.center.x;
+                rayYEnd = boxCollider.bounds.center.y - boxCollider.bounds.size.y;
+                if (CastLine(rayX, rayY, rayXEnd, rayYEnd, groundLayerMask))
+                {
+                    TransitionState(PlayerState.IDLE);
+                }
+
+                //double jump check
+                if (doubleJumpItem && !doubleJumpFlag && (Input.GetKeyDown("w")))
+                {
+                    TransitionState(PlayerState.DOUBLE_JUMP);
+                    jumping = true;
+                    jumpCounter = 0;
+                    verticalSpeed += jumpBurst;
+                    doubleJumpFlag = true;
+                    doubleJumpParticles.emissionRate = 5000;
+                }
+                else
+                {
+                    doubleJumpParticles.emissionRate = 0;
+                }
+
+                break;
+
+            case PlayerState.DOUBLE_JUMP:
+                if (jumpCounter > 0.1f)
+                {
+                    doubleJumpParticles.emissionRate = 0;
+                }
+                break;
+
+            case PlayerState.WALL_GRAB:
+                anim.SetBool("WallGrab", true);
+
+                doubleJumpFlag = false;
+
+                verticalSpeed = (verticalSpeed / 2);
+
+                if (wallCollision.wallLeft)
+                {
+                    WallParticlesLeft.emissionRate = 250;
+                    //Debug.Log("wall particles should be playing");
+
+                }
+                else if (wallCollision.wallRight)
+                {
+                    WallParticlesRight.emissionRate = 250;
+                    //Debug.Log("wall particles should be playing");
+                }
+                else
+                {
+                    TransitionState(PlayerState.FALLING);
+                    WallParticlesRight.emissionRate = 0;
+                    WallParticlesLeft.emissionRate = 0;
+                }
+                break;
+
+            case PlayerState.RUNNING:
+                if ((!grounded.grounded) && (playerState != PlayerState.ATTACKING))
+                {
+                    TransitionState(PlayerState.FALLING);
+                }
+
+                if (!Input.GetKey("a") && !Input.GetKey("d"))
+                {
+                    TransitionState(PlayerState.IDLE);
+                }
+                if ((grounded.grounded) && (Input.GetKeyDown("s")) && (moving == true))
+                {
+
+                    rollingCount = 0;
+                    anim.SetBool("Rolling", true);
+                    TransitionState(PlayerState.ROLLING);
+                }
+                break;
+
+            case PlayerState.WALKING:
+                if (!Input.GetKey("a") && !Input.GetKey("d"))
+                {
+                    TransitionState(PlayerState.IDLE);
+                    horizontalSpeed = 0;
+                }
+
+                if ((!grounded.grounded) && (playerState != PlayerState.ATTACKING))
+                {
+                    TransitionState(PlayerState.FALLING);
+                }
+                if ((grounded.grounded) && (Input.GetKeyDown("s")) && (moving == true))
+                {
+
+                    rollingCount = 0;
+                    anim.SetBool("Rolling", true);
+                    TransitionState(PlayerState.ROLLING);
+                }
+                break;
+
+            case PlayerState.ATTACKING:
+                switch (attack)
+                {
+                    case PlayerAttacks.GROUND_POUND:
+                        attackGroundPoundHitbox.enabled = true;
+                        break;
+                    case PlayerAttacks.PUNCH:
+                        attackPunchHitbox.enabled = true;
+                        break;
+                    case PlayerAttacks.PUNCH_SND:
+                        attackPunchSndHitbox.enabled = true;
+                        break;
+                    case PlayerAttacks.NO_ATTACK:
+                        if (grounded.grounded)
+                        {
+                            TransitionState(PlayerState.IDLE);
+                        }
+                        else
+                        {
+                            TransitionState(PlayerState.FALLING);
+                        }
+                        break;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        //jumping check
+        if (grounded.grounded && !noJump && inputEnabled && (playerState != PlayerState.DIALOG) && (playerState != PlayerState.ATTACKING) && (((Input.GetKeyDown("w")) || (Input.GetKeyDown("space")))))
+        {
+            JumpSound.Play();
+            jumping = true;
+            jumpCounter = 0;
+            if (crouchCounter > 0)
+            {
+                verticalSpeed += (jumpBurst + 2000);
+            }
+            else
+            {
+                verticalSpeed += jumpBurst;
+            }
+            TransitionState(PlayerState.JUMPING);
+>>>>>>> ecba01786226d7ab1e09ee03d0c0582bd7c4f1c4
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
