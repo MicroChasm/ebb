@@ -17,19 +17,24 @@ public class ObjectSensor : MonoBehaviour {
 	
 	}
 
-    void OnTriggerStay2D(Collider2D other)
-    {
-        if ((other.tag == collisionTag))
-        {
-            colliding = true;
-        }
-    }
+  void OnTriggerStay2D(Collider2D other)
+  {
+      if ((other.tag == collisionTag))
+      {
+          colliding = true;
+      }
+  }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == collisionTag)
-        {
-            colliding = false;
-        }
-    }
+  void OnTriggerExit2D(Collider2D other)
+  {
+      if (other.tag == collisionTag)
+      {
+          colliding = false;
+      }
+  }
+
+  public bool TargetInCollider()
+  {
+    return colliding;
+  }
 }

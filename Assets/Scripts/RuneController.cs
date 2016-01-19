@@ -7,7 +7,7 @@ public class RuneController : MonoBehaviour {
   private HashSet<string> runes;
   public bool allRunesCollected = false;
 
-	void Start () 
+	void Awake () 
   {
 	  runes = new HashSet<string>();
 	  runesCollected = new HashSet<string>();

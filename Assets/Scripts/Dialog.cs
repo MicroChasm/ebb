@@ -4,6 +4,17 @@ using System.Collections.Generic;
 
 public class Dialog : MonoBehaviour
 {
+  public enum DialogState
+  {
+    WAITING_TO_START,
+    WAITING_FOR_PLAYER,
+    WAITING_FOR_QUESTION,
+    TALKING,
+    WAITING_TO_RESET
+  };
+
+  public float messageCharacterDelay = 0.01f;
+
   public string[] questions;
   public string[][] answers;
   public string introDialog;
@@ -25,14 +36,9 @@ public class Dialog : MonoBehaviour
 
   public DialogState dialogState = DialogState.WAITING_TO_START;
 
-  public enum DialogState
-  {
-    WAITING_TO_START,
-    WAITING_FOR_PLAYER,
-    WAITING_FOR_QUESTION,
-    TALKING,
-    WAITING_TO_RESET
-  };
+  public int answerIndex = 0;
+
+  private bool skipToNext = false;
 
   void Start ()
   {
@@ -40,6 +46,8 @@ public class Dialog : MonoBehaviour
     {
       Debug.LogError("Set up playerSensor first");
     } 
+    player = GameObject.Find("Player Object");
+    playerController = player.GetComponent<playerController>();
     if (playerController == null)
     {
       Debug.LogError("Set up playerController first");
@@ -59,7 +67,7 @@ public class Dialog : MonoBehaviour
       case DialogState.WAITING_FOR_PLAYER:
         if (!playerSensor.colliding)
         {
-          dialogState = DialogState.WAITING_FOR_PLAYER;
+          dialogState = DialogState.WAITING_TO_START;
         }
         else if (playerController.StartDialog(this))
         {
@@ -91,7 +99,7 @@ public class Dialog : MonoBehaviour
   {
     bool displayDialog = false;
     string currentMessage = "";
-    int answerIndex = 0;
+    int nextAnswerIndex = 0;
     int questionIndex = 0;
     float questionX = 0;
     float questionY = 0;
@@ -106,7 +114,7 @@ public class Dialog : MonoBehaviour
         {
           questionX = player.transform.position.x + playerQuestionsOffset[0];
           questionY = player.transform.position.y + playerQuestionsOffset[1] + ((questions.Length - messageIndex - 1) * questionSeparator);
-            drawText(questions[messageIndex], questionX, questionY, 300, 500);
+          drawText(questions[messageIndex], questionX, questionY, 300, 500);
         }
         questionX = player.transform.position.x + playerQuestionsOffset[0] - 1;
         questionY = player.transform.position.y + playerQuestionsOffset[1] + (currentSelection * questionSeparator);
@@ -115,7 +123,22 @@ public class Dialog : MonoBehaviour
 
       case DialogState.TALKING:
         displayDialog = true;
-        answerIndex = Mathf.FloorToInt(dialogTimer/ messageTransitionDelay);
+        messageTransitionDelay = messageCharacterDelay * answers[questionIndex][answerIndex].Length;
+        nextAnswerIndex = answerIndex + Mathf.FloorToInt(dialogTimer/ messageTransitionDelay);
+        if (nextAnswerIndex != answerIndex || skipToNext)
+        {
+          if (skipToNext)
+          {
+            answerIndex++;
+          }
+          else
+          {
+            answerIndex = nextAnswerIndex;
+          }
+
+          dialogTimer = 0;
+          skipToNext = false;
+        }
         questionIndex = questions.Length - currentSelection - 1;
 
         if (answerIndex < answers[questionIndex].Length)
@@ -170,6 +193,14 @@ public class Dialog : MonoBehaviour
     {
       dialogTimer = 0;
       dialogState = DialogState.TALKING;
+      answerIndex = 0;
+    }
+    else if (dialogState == DialogState.TALKING)
+    {
+      if (Input.GetKeyDown("e"))
+      {
+        skipToNext = true;
+      }
     }
   }
 

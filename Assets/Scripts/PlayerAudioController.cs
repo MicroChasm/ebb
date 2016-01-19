@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
+using System;
+
 
 public enum AudioClipEnum
 {
@@ -14,12 +14,17 @@ public enum AudioClipEnum
   AUDIO_CLIP_DAMAGE1,
   AUDIO_CLIP_DAMAGE2,
   AUDIO_CLIP_DAMAGE3,
-  AUDIO_CLIP_GEM
+  AUDIO_CLIP_GEM,
+  AUDIO_CLIP_JUMP,
+  AUDIO_CLIP_LAND,
+  AUDIO_CLIP_FAST_FALL_LAND
 }
 
 public class PlayerAudioController : MonoBehaviour 
 {
   AudioSource audioSource;
+
+  public bool muted = false;
 
   public AudioClip landingAudioClip;
   public AudioClip coinAudioClip;
@@ -34,6 +39,12 @@ public class PlayerAudioController : MonoBehaviour
   public AudioClip damage2;
   public AudioClip damage3;
   public AudioClip gemAudioClip1;
+    public AudioClip jumpAudioClip1;
+
+
+    public AudioClip landAudioClip1;
+    public AudioClip fastFallLandAudioClip1;
+
   public AudioClip[] walkingAudioClips = new AudioClip[7];
 
   void Start () 
@@ -49,7 +60,7 @@ public class PlayerAudioController : MonoBehaviour
   public void PlayAudioClip(AudioClipEnum audioClipEnum)
   {
     AudioClip audioClip = null;
-
+    audioSource.pitch = 1.0f;
     switch (audioClipEnum)
     {
       case AudioClipEnum.AUDIO_CLIP_COIN:
@@ -89,13 +100,22 @@ public class PlayerAudioController : MonoBehaviour
         break;
 
       case AudioClipEnum.AUDIO_CLIP_GEM:
-        audioClip = gemAudioClip1;
-        break;
-    }
+          audioClip = gemAudioClip1;
+          break;
+      case AudioClipEnum.AUDIO_CLIP_JUMP:
+          audioClip = jumpAudioClip1;
+          break;
+            case AudioClipEnum.AUDIO_CLIP_LAND:
+                audioClip = landAudioClip1;
+                break;
+            case AudioClipEnum.AUDIO_CLIP_FAST_FALL_LAND:
+                audioClip = fastFallLandAudioClip1;
+                break;
 
+        }
     if ((audioClipEnum == AudioClipEnum.AUDIO_CLIP_UNDEFINED) || (audioClip != null))
     {
-      audioSource.PlayOneShot(audioClip);
+      if (!muted) audioSource.PlayOneShot(audioClip);
     }
     else
     {
@@ -106,6 +126,7 @@ public class PlayerAudioController : MonoBehaviour
   public void PlayRuneAudioClip(string runeName)
   {
     AudioClipEnum clipEnum = AudioClipEnum.AUDIO_CLIP_UNDEFINED;
+    audioSource.pitch = 1.0f;
     if (runeName.IndexOf("tree", StringComparison.OrdinalIgnoreCase) >= 0)
     {
       clipEnum = AudioClipEnum.AUDIO_CLIP_TREERUNE;
@@ -126,20 +147,26 @@ public class PlayerAudioController : MonoBehaviour
     {
       clipEnum = AudioClipEnum.AUDIO_CLIP_PRUNE;
     }
+        PlayAudioClip(clipEnum);
   }
-  
-  public void PlayWalkingAudioClip(int walkingClipIndex)
-  {
-    if (walkingClipIndex < walkingAudioClips.Length)
+
+    public void PlayWalkingAudioClip()
     {
-      if (!audioSource.isPlaying)
-      {
-        audioSource.PlayOneShot(walkingAudioClips[walkingClipIndex]);
-      }
+        int walkingClipIndex = UnityEngine.Random.Range(0, walkingAudioClips.Length);
+        if (walkingClipIndex < walkingAudioClips.Length)
+        {
+            if (!audioSource.isPlaying)
+            {
+                if (!muted) audioSource.PlayOneShot(walkingAudioClips[walkingClipIndex]);
+            }
+        }
+        else
+        {
+            Debug.LogError("Could not play walking clip " + walkingClipIndex);
+        }
+    
+        if (Input.GetKey(KeyCode.LeftShift))
+            audioSource.pitch = 1.25f;
+        else audioSource.pitch = 1.0f;
     }
-    else
-    {
-      Debug.LogError("Could not play walking clip " + walkingClipIndex);
-    }
-  }
 }
