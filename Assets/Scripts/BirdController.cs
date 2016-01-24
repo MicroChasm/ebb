@@ -5,7 +5,7 @@ public class BirdController : MonoBehaviour
 {
     public ParticleSystem blood;
     public float hp = 300;
-    public float playerDamage = 100;
+    public float playerDamage = 1000;
     public BirdSpriteAnimator birdAnimator;
 
     public AudioSource CawAudio;
@@ -149,6 +149,7 @@ public class BirdController : MonoBehaviour
     {
         if (other.gameObject.tag == "PlayerAttack" && birdState != BirdState.BirdDeath)
         {
+            Debug.Log("bird got hit!");
             ApplyDamage();
             CawAudio.PlayOneShot(CawAudio.clip);
         }

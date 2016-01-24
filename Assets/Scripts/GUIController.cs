@@ -31,7 +31,7 @@ public class GUIController : MonoBehaviour {
     public void LoadLevel()
     {
         Time.timeScale = 1f;
-        Application.LoadLevel("Scene_VerticalSlice");
+        Application.LoadLevel("Sandbox");
     }
 
     public void QuitGame()
