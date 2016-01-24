@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CrowController : MonoBehaviour {
+public class Crow1Controller : MonoBehaviour {
     private Dialog dialog;
     private int numQuestions = 6;
 

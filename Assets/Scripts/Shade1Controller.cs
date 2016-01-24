@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ShadeController : MonoBehaviour {
+public class Shade1Controller : MonoBehaviour {
     private Dialog dialog;
     private int numQuestions = 6;
+    public int shadeType = 1;
 
     // Use this for initialization
     void Start()
@@ -60,6 +61,9 @@ public class ShadeController : MonoBehaviour {
             dialog.answers[dialogIndex][0] = "Good luck.  Stay warm";
 
         }
+
+        Animator anim = GetComponent<Animator>();
+        anim.SetInteger("ShadeType", shadeType);
     }
 
     // Update is called once per frame

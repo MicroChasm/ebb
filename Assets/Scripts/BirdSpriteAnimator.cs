@@ -8,6 +8,8 @@ public class BirdSpriteAnimator : MonoBehaviour {
     public Rigidbody2D body;
     private bool animating = true;
 
+    private const int MAX_FRAME = 56;
+
     enum birdOrientation
     {
         BIRD_UP = 0,
@@ -29,6 +31,7 @@ public class BirdSpriteAnimator : MonoBehaviour {
     void Start () {
 
         anim = GetComponent<Animator>();
+        frame = Random.Range(1, MAX_FRAME);
     }
 	
 	// Update is called once per frame
@@ -37,7 +40,7 @@ public class BirdSpriteAnimator : MonoBehaviour {
         if (animating)
         {
             frame++;
-            if (frame > 56)
+            if (frame > MAX_FRAME)
             {
                 frame = 1;
             }
